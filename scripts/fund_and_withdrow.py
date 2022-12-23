@@ -15,7 +15,7 @@ def fund():
 def withdrow():
     fund_me = FundMe[-1]
     account = get_account()
-    fund_me.withdrow({"from": account})
+    fund_me.withdrow({"froms": account})
 
 
 def main():
