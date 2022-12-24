@@ -4,14 +4,14 @@ pragma solidity ^0.6.6;
 import "@chainlink/contracts/src/v0.6/interfaces/AggregatorV3Interface.sol";
 import "@chainlink/contracts/src/v0.6/vendor/SafeMathChainlink.sol";
 
-contract FundMe {
+contract fundiMe {
     using SafeMathChainlink for uint256;
 
     AggregatorV3Interface public priceFeed;
 
-    mapping(address => uint256) public addressToAmountFunded;
+    mapping(address => uint256) public addressToAmountfundied;
     address public owner;
-    address[] public funders;
+    address[] public fundiers;
 
     constructor(address _priceFeed) public {
         priceFeed = AggregatorV3Interface(_priceFeed);
@@ -19,14 +19,14 @@ contract FundMe {
     }
 
     //minimum 50$
-    function fund() public payable {
+    function fundi() public payable {
         uint256 minimumUsd = 1 * 10**18;
         require(
             getConversionRate(msg.value) >= minimumUsd,
             "you need to spend more eth"
         );
-        addressToAmountFunded[msg.sender] += msg.value;
-        funders.push(msg.sender);
+        addressToAmountfundied[msg.sender] += msg.value;
+        fundiers.push(msg.sender);
     }
 
     function getVersion() public view returns (uint256) {
@@ -61,16 +61,16 @@ contract FundMe {
         _;
     }
 
-    function withdrow() public payable onlyOwner {
+    function withdr() public payable onlyOwner {
         msg.sender.transfer(address(this).balance);
         for (
-            uint256 funderIndex = 0;
-            funderIndex < funders.length;
-            funderIndex++
+            uint256 fundierIndex = 0;
+            fundierIndex < fundiers.length;
+            fundierIndex++
         ) {
-            address funder = funders[funderIndex];
-            addressToAmountFunded[funder] = 0;
+            address fundier = fundiers[fundierIndex];
+            addressToAmountfundied[fundier] = 0;
         }
-        funders = new address[](0);
+        fundiers = new address[](0);
     }
 }
